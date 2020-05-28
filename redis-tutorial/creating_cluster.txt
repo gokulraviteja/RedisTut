@@ -1,0 +1,58 @@
+
+Go to this Folder
+
+redis-6.0.1⁩ ▸ ⁨utils⁩ ▸ ⁨create-cluster⁩ 
+
+
+#By default starts 5 nodes with ports 30001,30002...
+
+#Start a cluster
+./⁨create-cluster⁩ start
+./⁨create-cluster⁩ create
+
+
+#To stop the cluster
+./⁨create-cluster⁩ stop
+
+
+Ran into Error : See EOF.
+
+
+Manually
+
+#create a folder 
+mkdir cluster-test 
+cd cluster-test
+
+#create n folders for n nodes
+mkdir 7000 7001 7002 7003 7004 7005
+
+#make a config file in every folder 
+cd 7000
+nano redis.conf
+
+#config file looks like (port number varies accordingly)
+port 7000
+cluster-enabled yes
+cluster-config-file nodes.conf
+cluster-node-timeout 5000
+appendonly yes
+
+#for each folder in a new terminal tab
+cd 7000
+redis-server ./redis.conf
+
+cd 7001
+redis-server ./redis.conf
+
+...
+
+
+
+I did face this error :
+	using create-cluster BIN_PATH is set as ../../src
+	if that directory is not present , change it accordingly where redis-server is present else just remove the $BIN_PATH in all three while loops of create , stop, start.
+
+Other :
+	Reach me .
+
