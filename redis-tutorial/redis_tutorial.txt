@@ -1,0 +1,136 @@
+Redis:
+	
+	Was created as a cache , evolved as a database......?
+	Redis is an in-memory datastructure store which can be used as a database or a cache or message broker.
+	It has built in replication.
+	Uses Key_Value store.
+	Best feature of it is having support for multiple datastructures.
+	Data types:
+		Strings
+		Lists
+		Hashes
+		Sets
+		SortedSets
+		BitMaps
+		HyperLogs
+		GeospatialIndexes
+
+	Advantages:
+		Very Flexible
+		No Schemas and Column Names
+		Very Fast
+		(Can perform around 110000 sets per second and 81000 gets per second).
+		Caching and Disk Persistence
+		Rich Datatype support.
+		Supports Multiple Language Support.
+
+
+
+Prac:
+	Basic:
+
+		ping 	-> pong
+		echo 'heelo' 				-> "hello" 
+		set foo 100
+		get foo
+		incr foo   					-> should be integer
+		decr foo
+		exists foo
+		del foo
+		flushall  					-> deletes everything
+		clear						-> clears console
+		expire foo 50 				-> tells foo to be expired after 50sec
+		ttl foo 					-> show how much time left
+		setex foo 30 "hello"		-> set expiration when setting value
+		persist foo					-> make it persistant , remove the expiration
+		mset key1 1 key2 2			-> set multiple keys 
+		append foo " world"			-> append the string to existing value
+		rename foo foo1				-> rename key
+
+	List:
+
+		lpush foo "ele1"			-> appends ele at starting of list
+		rpush foo "elelast"			-> appends ele at ending  of list
+		lrange foo 0 -1 			-> print elements from index 0 to end (if 0 1 	-> from index 0 to index 1)
+		llen foo 
+		lpop foo
+		rpop
+		linsert foo before "ele1" "add_this_element"
+
+	Sets:
+
+		sadd foo 'e1'
+		sismember foo 'e1' 			-> returns 1 if exists
+		smembers foo 				-> returns all members of foo
+		scard foo 					-> returns count 
+		move foo foo1 'e1'			-> moves 'e1' from foo to foo1 (cut paste)
+		srem foo 'e1'				-> removes 'e1' from foo
+		spop foo
+		sdiff f1 f2
+
+	Sorted Sets:	
+
+		zadd foo 15 'a' 			-> add 'a' with a score of 15 to set
+		zrank foo 'a'				-> gives rank of 'a' in set (its rank , not the score)
+		zrange foo 0 -1				-> prints all elements in foo
+		zrange foo 0 -1	withscores	-> prints all elements in foo with scores
+		zincrby foo 10 'a'			-> inc score of a by 10
+
+	Hash:
+
+		hset user name 'gokul'		-> creating a key value in the hashset named user   
+		hset user password 'NahBhai'
+		hset user age 21
+		hget user name 				-> get value of name in hashset named user
+		hgetall user 				-> prints all field names and values
+		hkeys user					-> get all keys of the hash set
+		hvals user					-> get all values of the hash set
+		hincrby user age 1 			-> read the command :)
+		hdel user age 				-> deletes particular key in that hashset
+		hlen user					-> count of key-val pairs
+
+Redis vs Memcached:
+	Redis supports Replication.
+	Rich feature set in redis.
+	Persistence has configurable levels of persistence, Memacached no persistence.
+
+Redis Cluster:
+	Horizontally scalable way to have redis instances forming a cluster.
+	Auto datasharding...
+	Fault Tolerant
+	Decentralized cluster management systems(uses gossip protocol among nodes)(No single node that controls, every node participates )
+	Req cluster compatible client libraries
+
+
+Data sharding in a cluster
+
+Every key that is stored is associated with a hash slot , there are 16383 slots in redis cluster and if we have 3 master nodes (say) 
+
+m1- slots 0 to 5500
+m2- slots 5501 to 11000
+m3- slots 11001 to 16383
+
+
+and lets assume each master have 2 replicas (slaves ), when master goes down the slave replaces the master.
+
+Master is the single source of truth for a client for data consistency
+
+Persistence:
+
+	AOF:(Append only  file)
+		rediscluster.conf
+			appendonly yes
+			appendfsync no (no - default) (always or everysecond). maintains a file of all the write commands that redis receives and push to disk depending on appendfsync.
+	RDB:
+		Push the snapshot of data .
+		We do it on slaves as if on master there will be performance degradation
+
+Latency Checker in redis:
+	latency doctor
+	redis-cli --intrinsic-latency 100 ( 100sec sample window )
+
+
+	....................
+
+
+
